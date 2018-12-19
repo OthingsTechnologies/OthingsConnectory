@@ -1,6 +1,9 @@
 package io.technologies.othings.othingsconnectory;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,12 +26,14 @@ public class OthingsConnector {
         private ConnectNetworkDeviceListener connectNetworkDeviceListener;
         private int responseTime = 500;
         private boolean run = false;
+        private Context context;
 
         public NetworkDevice(){}
-        public NetworkDevice( String ip , int port ){
+        public NetworkDevice( Context context , String ip , int port ){
 
             this.ip = ip;
             this.port = port;
+            this.context = context;
 
         }
 
@@ -92,36 +97,80 @@ public class OthingsConnector {
                         socket.close();
 
                         if( connectNetworkDeviceListener != null ){
-                            connectNetworkDeviceListener.onSuccess();
+
+                            (((Activity) context)).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    connectNetworkDeviceListener.onSuccess();
+
+                                }
+                            });
+
+
                         }
 
                     }
                     else{
 
                         if( connectNetworkDeviceListener != null ){
-                            connectNetworkDeviceListener.onError("No se pudo conectar con el dispositivo");
+
+                            (((Activity) context)).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    connectNetworkDeviceListener.onError("No se pudo conectar con el dispositivo");
+
+                                }
+                            });
+
+
                         }
 
                     }
 
-                } catch (UnknownHostException e) {
+                } catch (final UnknownHostException e) {
 
                     if( connectNetworkDeviceListener != null ){
-                        connectNetworkDeviceListener.onError(e.getMessage());
+
+                        (((Activity) context)).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                connectNetworkDeviceListener.onError(e.getMessage());
+
+                            }
+                        });
+
+
                     }
 
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch ( final IOException e) {
 
                     if( connectNetworkDeviceListener != null ){
-                        connectNetworkDeviceListener.onError(e.getMessage());
+                        (((Activity) context)).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                connectNetworkDeviceListener.onError(e.getMessage());
+
+                            }
+                        });
                     }
 
                     e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch ( final InterruptedException e) {
 
                     if( connectNetworkDeviceListener != null ){
-                        connectNetworkDeviceListener.onError(e.getMessage());
+                        (((Activity) context)).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                connectNetworkDeviceListener.onError(e.getMessage());
+
+                            }
+                        });
                     }
 
                     e.printStackTrace();
