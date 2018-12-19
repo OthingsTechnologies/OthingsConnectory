@@ -50,6 +50,7 @@ public class OthingsConnector {
 
         public void sendData( String data ){
 
+            new connect().execute(data);
 
         }
 
