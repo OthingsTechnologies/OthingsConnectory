@@ -1,9 +1,14 @@
 package io.technologies.othings.othingsconnectory;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,6 +32,7 @@ public class OthingsConnector {
         private int responseTime = 500;
         private boolean run = false;
         private Context context;
+        private LoaderDialog loaderDialog;
 
         public NetworkDevice(){}
         public NetworkDevice( Context context , String ip , int port ){
@@ -34,6 +40,7 @@ public class OthingsConnector {
             this.ip = ip;
             this.port = port;
             this.context = context;
+            loaderDialog = new LoaderDialog(context);
 
         }
 
@@ -80,6 +87,15 @@ public class OthingsConnector {
             protected Void doInBackground(String... strings) {
 
 
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        loaderDialog.show("Imprimiendo ...");
+
+                    }
+                });
+
                 String data = strings[0];
 
                 try {
@@ -102,6 +118,7 @@ public class OthingsConnector {
                                 @Override
                                 public void run() {
 
+                                    loaderDialog.hide();
                                     connectNetworkDeviceListener.onSuccess();
 
                                 }
@@ -118,7 +135,7 @@ public class OthingsConnector {
                             (((Activity) context)).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
+                                    loaderDialog.hide();
                                     connectNetworkDeviceListener.onError("No se pudo conectar con el dispositivo");
 
                                 }
@@ -136,7 +153,7 @@ public class OthingsConnector {
                         (((Activity) context)).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                loaderDialog.hide();
                                 connectNetworkDeviceListener.onError(e.getMessage());
 
                             }
@@ -152,7 +169,7 @@ public class OthingsConnector {
                         (((Activity) context)).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                loaderDialog.hide();
                                 connectNetworkDeviceListener.onError(e.getMessage());
 
                             }
@@ -166,7 +183,7 @@ public class OthingsConnector {
                         (((Activity) context)).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                loaderDialog.hide();
                                 connectNetworkDeviceListener.onError(e.getMessage());
 
                             }
@@ -196,6 +213,44 @@ public class OthingsConnector {
 
 
     }
+
+    private static class LoaderDialog{
+
+        private Context context;
+        private AlertDialog dialog;
+        private View view;
+        private ProgressBar progressBar;
+        private TextView status;
+
+        public LoaderDialog( Context context ){
+
+            this.context = context;
+            this.view = LayoutInflater.from(context).inflate(R.layout.loader_dialog,null);
+            this.progressBar = view.findViewById(R.id.progressBar);
+            this.status = view.findViewById(R.id.status);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setView(view);
+            dialog = builder.create();
+            dialog.setCancelable(false);
+
+        }
+
+        public void show(String data){
+
+            status.setText(data);
+            dialog.show();
+
+        }
+
+        public void hide(){
+
+            dialog.dismiss();
+
+        }
+
+
+    }
+
 
 
 }
