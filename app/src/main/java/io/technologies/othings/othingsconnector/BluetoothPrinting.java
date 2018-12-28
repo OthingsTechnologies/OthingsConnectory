@@ -1,13 +1,14 @@
 package io.technologies.othings.othingsconnector;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-public class Tests extends AppCompatActivity {
+public class BluetoothPrinting extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tests);
+        setContentView(R.layout.activity_bluetooth_printing);
     }
 }
