@@ -249,10 +249,10 @@ public class OthingsConnector {
         private String macAddress;
         private LoaderDialog loaderDialog;
 
-        public BluetoothDevice( View view , Context context){
+        public BluetoothDevice( Context context){
 
             this.context = context;
-            this.view = view;
+            this.view = ((Activity) context).findViewById(R.id.content);
             this.bluetoothDeviceList = new ArrayList<>();
             this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             this.filter = BluetoothDevices.ALL;
