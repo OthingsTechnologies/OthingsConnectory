@@ -41,7 +41,7 @@ public class OthingsConnector {
         private int responseTime = 500;
         private boolean run = false;
         private Context context;
-        private LoaderDialog loaderDialog;
+        public LoaderDialog loaderDialog;
 
         public NetworkDevice( Context context , String ip , int port ){
 
