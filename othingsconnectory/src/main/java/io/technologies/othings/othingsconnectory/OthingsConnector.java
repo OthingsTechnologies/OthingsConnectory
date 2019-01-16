@@ -41,7 +41,7 @@ public class OthingsConnector {
         private int responseTime = 500;
         private boolean run = false;
         private Context context;
-        public LoaderDialog loaderDialog;
+        private LoaderDialog loaderDialog;
 
         public NetworkDevice( Context context , String ip , int port ){
 
@@ -230,6 +230,12 @@ public class OthingsConnector {
 
             void onSuccess();
             void onError(String error);
+
+        }
+
+        public void hideDialog(){
+
+            loaderDialog.hide();
 
         }
 
@@ -462,6 +468,12 @@ public class OthingsConnector {
         public enum Error{
             DEVICE_NOT_PAIRED,
             CONNECTION_REFUSED
+        }
+
+        public void hideDialog(){
+
+            loaderDialog.hide();
+
         }
 
     }
