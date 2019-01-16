@@ -473,6 +473,7 @@ public class OthingsConnector {
         public void hideDialog(){
 
             loaderDialog.hide();
+            bluetoothAdapter.cancelDiscovery();
 
         }
 
