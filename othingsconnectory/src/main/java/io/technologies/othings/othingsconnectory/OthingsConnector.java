@@ -444,6 +444,14 @@ public class OthingsConnector {
 
                     } catch (IOException e) {
                         e.printStackTrace();
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                bluetoothConnection.onError(Error.CONNECTION_REFUSED);
+
+                            }
+                        });
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
